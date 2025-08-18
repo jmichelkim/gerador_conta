@@ -1,0 +1,36 @@
+tb_conta
+   - nome_cliente
+   - cpf
+   - telefone
+   - cep
+   - uf
+
+   - numero_conta
+   - numero_agencia
+   - tipo_conta (C/C ou C/P) (OO - heranca)
+
+
+   - situacao_conta (ativa ou encerrada)
+   - data_abertura (insert automatico)
+   - data_encerramento (put/path - altera)
+
+   tb_agencia
+    - numero_agencia
+    - uf
+    - nome_agencia
+
+  autenticacao
+    - proprio codigo quarkus
+
+
+  Etapas
+
+  - criar classes no quarkus
+  - criar tabelas e alimentar
+  - controller / Model / DTO
+  - Postman - 
+  - autenticacao - admin / user
+  - front end
+  - readme
+  - git
+  - alteracao puth path ????
