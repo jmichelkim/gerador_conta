@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.UriInfo;
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.jboss.resteasy.reactive.RestPath;
 import org.jboss.resteasy.reactive.RestResponse;
 
 import java.util.List;
@@ -40,14 +41,14 @@ public class ContaController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path ("{id}")
-    public RestResponse buscarConta(Long id){
+    public RestResponse buscarConta(@RestPath Long id){
         return RestResponse.ok(contaService.findById(id));
     }
 
     @PATCH
     @Transactional
     @Path ("{id}")
-    public RestResponse<Void> encerrarConta(Long id){
+    public RestResponse<Void> encerrarConta(@RestPath Long id){
         this.contaService.encerrarConta(id);
         return RestResponse.ok();
     }
@@ -55,7 +56,7 @@ public class ContaController {
     @DELETE
     @Transactional
     @Path("{id}")
-    public RestResponse<Void> deletarConta (Long id){
+    public RestResponse<Void> deletarConta (@RestPath Long id){
         this.contaService.deletarConta(id);
         return RestResponse.ok();
     }
