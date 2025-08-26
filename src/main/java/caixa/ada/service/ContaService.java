@@ -2,6 +2,9 @@ package caixa.ada.service;
 
 import caixa.ada.DTO.ClienteDTO;
 import caixa.ada.DTO.mapper.ClienteMapper;
+import caixa.ada.exceptions.AgenciaNaoEncontradaException;
+import caixa.ada.exceptions.CepNaoEncontradoOuNuloException;
+import caixa.ada.exceptions.ContaNaoEncontradaException;
 import caixa.ada.model.Agencia;
 import caixa.ada.model.Cliente;
 import caixa.ada.model.Conta;
@@ -30,16 +33,27 @@ public class ContaService {
     }
 
     public void cadastrarConta(ClienteDTO clienteDTO){
-        AgenciaHttp agenciaHttp = consultaCepHttpService.buscaCep(clienteDTO.getCep());
-        Agencia agencia = agenciaService.buscarUf(agenciaHttp.getUf());
-        if (agencia !=null) {
-            Cliente cliente = ClienteMapper.toEntity(clienteDTO);
-            Conta conta = new Conta(agencia, cliente);
-            contaRepository.persist(conta);
+        AgenciaHttp agenciaHttp = obterAgenciaPorCep(clienteDTO.getCep());
+        if (agenciaHttp.getUf() == null) {
+            throw new AgenciaNaoEncontradaException("Agência não encontrada para o estado informado.");
         }
-        else System.out.println("Agencia não encontrada com o CEP informado");
+        Agencia agencia = agenciaService.buscarUf(agenciaHttp.getUf());
+        Cliente cliente = ClienteMapper.toEntity(clienteDTO);
+        Conta conta = new Conta(agencia, cliente);
+        contaRepository.persist(conta);
     }
 
+    public AgenciaHttp obterAgenciaPorCep(String cep){
+        try {
+            AgenciaHttp agencia = consultaCepHttpService.buscaCep(cep);
+            if (agencia == null) {
+                throw new CepNaoEncontradoOuNuloException("CEP inválido ou não encontrado.");
+            }
+            return agencia;
+        } catch (Exception e) {
+            throw new CepNaoEncontradoOuNuloException("Erro ao consultar o CEP.");
+        }
+    }
 
     public List<Conta> getContas() {
         return contaRepository.listAll();
@@ -50,10 +64,14 @@ public class ContaService {
     }
 
     public void encerrarConta(Long id) {
-        contaRepository.findById(id).setDataEncerramento();
+        if (this.findById(id) != null) {
+            contaRepository.findById(id).setDataEncerramento();
+        } else throw new ContaNaoEncontradaException("Não encontrada conta para encerrar com esse 'id'.");
     }
 
     public void deletarConta(Long id) {
-        contaRepository.deleteById(id);
+        if (this.findById(id) != null) {
+            contaRepository.deleteById(id);
+        } else throw new ContaNaoEncontradaException("Não encontrada conta para deletar com esse 'id'.");
     }
 }

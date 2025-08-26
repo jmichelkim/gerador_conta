@@ -5,10 +5,15 @@ public class AgenciaHttp {
     private String uf;
     private String cep;
 
+    public AgenciaHttp() {
+
+    }
     public AgenciaHttp(String code, String state){
         this.cep = code;
         this.uf = state;
     }
+
+
 
     public String getCep() {
         return cep;

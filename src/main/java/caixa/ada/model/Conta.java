@@ -26,7 +26,7 @@ public class Conta {
     @Column(name="data_encerramento")
     private LocalDate dataEncerramento;
 
-    private Boolean isAtive;
+    private Boolean isActive;
 
     private static Long contador = 1L;
 
@@ -39,7 +39,7 @@ public class Conta {
         this.cliente = cliente;
         this.dataAbertura = LocalDate.now();
         this.dataEncerramento = null;
-        this.isAtive = true;
+        this.isActive = true;
         this.contador++;
     }
 
@@ -89,14 +89,14 @@ public class Conta {
 
     public void setDataEncerramento() {
         this.dataEncerramento = LocalDate.now();
-        this.setAtive(false);
+        this.setActive(false);
     }
 
-    public Boolean getAtive() {
-        return isAtive;
+    public Boolean getActive() {
+        return isActive;
     }
 
-    public void setAtive(Boolean ative) {
-        isAtive = ative;
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

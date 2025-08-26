@@ -13,7 +13,7 @@ public class Cliente {
     private String nomeCliente;
 
     @Column(name="cpf_cliente")
-    private int cpfCliente;
+    private String cpfCliente;
 
     private String endereco;
     private String telefone;
@@ -23,7 +23,7 @@ public class Cliente {
 
     }
 
-    public Cliente(Long id, String nomeCliente, int cpfCliente, String endereco,
+    public Cliente(Long id, String nomeCliente, String cpfCliente, String endereco,
                    String telefone, String cep) {
         this.id = id;
         this.nomeCliente = nomeCliente;
@@ -49,11 +49,11 @@ public class Cliente {
         this.nomeCliente = nomeCliente;
     }
 
-    public int getCpfCliente() {
+    public String getCpfCliente() {
         return cpfCliente;
     }
 
-    public void setCpfCliente(int cpfCliente) {
+    public void setCpfCliente(String cpfCliente) {
         this.cpfCliente = cpfCliente;
     }
 
