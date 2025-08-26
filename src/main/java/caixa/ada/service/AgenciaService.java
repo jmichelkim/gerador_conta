@@ -13,7 +13,7 @@ public class AgenciaService {
         this.agenciaRepository = agenciaRepository;
     }
 
-    public Agencia buscarUf(String uf){
+    public Agencia buscarUf(String uf) {
         return agenciaRepository.find("ufAgencia", uf).firstResult();
     }
 }

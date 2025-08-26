@@ -7,10 +7,10 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.jboss.resteasy.reactive.RestPath;
-import org.jboss.resteasy.reactive.RestResponse;
 
 import java.util.List;
 
@@ -25,9 +25,12 @@ public class ContaController {
 
     @POST
     @Transactional
-    public RestResponse cadastrarConta(ClienteDTO clienteDTO, @Context UriInfo uriInfo){
+    @Operation(summary = "Cadastra nova conta",
+            description = "Cadastra nova conta para o cliente, vinculando a uma agência")
+    public Response addConta(ClienteDTO clienteDTO, @Context UriInfo uriInfo){
         this.contaService.cadastrarConta(clienteDTO);
-        return RestResponse.created(uriInfo.getAbsolutePath());
+        return Response.status(Response.Status.CREATED).
+                entity("Conta Cadastrada com sucesso").build();
     }
 
     @GET
@@ -40,26 +43,33 @@ public class ContaController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Busca conta cadastrada",
+            description = "Busca conta cadastrada pelo 'id'")
     @Path ("{id}")
-    public RestResponse buscarConta(@RestPath Long id){
-        return RestResponse.ok(contaService.findById(id));
+    public Response findConta(@RestPath Long id){
+        return Response.ok(contaService.findById(id)).build();
+
     }
 
     @PATCH
     @Transactional
+    @Operation(summary = "Encerra conta cadastrada",
+            description = "Encerra conta pelo 'id'")
     @Path ("{id}")
-    public RestResponse<Void> encerrarConta(@RestPath Long id){
+    public Response closeConta(@RestPath Long id){
         this.contaService.encerrarConta(id);
-        return RestResponse.ok();
+        return Response.status(Response.Status.OK)
+                .entity("Conta encerrada com sucesso").build();
     }
 
     @DELETE
     @Transactional
+    @Operation(summary = "Apaga conta cadastrada",
+            description = "Apaga conta pelo 'id'")
     @Path("{id}")
-    public RestResponse<Void> deletarConta (@RestPath Long id){
+    public Response deleteConta(@RestPath Long id){
         this.contaService.deletarConta(id);
-        return RestResponse.ok();
+        return Response.status(Response.Status.OK)
+                .entity("Conta excluída com sucesso").build();
     }
-
-
 }
