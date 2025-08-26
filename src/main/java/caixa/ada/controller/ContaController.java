@@ -5,10 +5,8 @@ import caixa.ada.model.Conta;
 import caixa.ada.service.ContaService;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.jboss.resteasy.reactive.RestPath;
 
@@ -27,7 +25,7 @@ public class ContaController {
     @Transactional
     @Operation(summary = "Cadastra nova conta",
             description = "Cadastra nova conta para o cliente, vinculando a uma agência")
-    public Response addConta(ClienteDTO clienteDTO, @Context UriInfo uriInfo){
+    public Response addConta(ClienteDTO clienteDTO){
         this.contaService.cadastrarConta(clienteDTO);
         return Response.status(Response.Status.CREATED).
                 entity("Conta Cadastrada com sucesso").build();
