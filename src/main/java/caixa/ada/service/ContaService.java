@@ -2,6 +2,7 @@ package caixa.ada.service;
 
 import caixa.ada.DTO.ClienteDTO;
 import caixa.ada.DTO.mapper.ClienteMapper;
+import caixa.ada.exception.mapper.ValidCep;
 import caixa.ada.model.Agencia;
 import caixa.ada.model.Cliente;
 import caixa.ada.model.Conta;
@@ -32,12 +33,13 @@ public class ContaService {
     public void cadastrarConta(ClienteDTO clienteDTO){
         AgenciaHttp agenciaHttp = consultaCepHttpService.buscaCep(clienteDTO.getCep());
         Agencia agencia = agenciaService.buscarUf(agenciaHttp.getUf());
-        if (agencia !=null) {
-            Cliente cliente = ClienteMapper.toEntity(clienteDTO);
-            Conta conta = new Conta(agencia, cliente);
-            contaRepository.persist(conta);
+        if (agencia == null) {
+            throw new ValidCep("Agencia não encontrada com o CEP informado");
         }
-        else System.out.println("Agencia não encontrada com o CEP informado");
+
+        Cliente cliente = ClienteMapper.toEntity(clienteDTO);
+        Conta conta = new Conta(agencia, cliente);
+        contaRepository.persist(conta);
     }
 
 
