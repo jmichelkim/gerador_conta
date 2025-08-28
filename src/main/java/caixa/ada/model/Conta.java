@@ -14,10 +14,12 @@ public class Conta {
     @Column(name="numero_conta")
     private Long numeroConta;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "agencia_id")
     private Agencia agencia;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @Column(name="data_abertura")
