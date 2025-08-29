@@ -14,11 +14,11 @@ public class Conta {
     @Column(name="numero_conta")
     private Long numeroConta;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "agencia_id")
     private Agencia agencia;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
@@ -28,7 +28,7 @@ public class Conta {
     @Column(name="data_encerramento")
     private LocalDate dataEncerramento;
 
-    private Boolean isActive;
+    private Boolean ativa;
 
     private static Long contador = 1L;
 
@@ -41,7 +41,7 @@ public class Conta {
         this.cliente = cliente;
         this.dataAbertura = LocalDate.now();
         this.dataEncerramento = null;
-        this.isActive = true;
+        this.ativa = true;
         this.contador++;
     }
 
@@ -95,10 +95,10 @@ public class Conta {
     }
 
     public Boolean getActive() {
-        return isActive;
+        return ativa;
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
+    public void setActive(Boolean ativa) {
+        this.ativa = ativa;
     }
 }
