@@ -122,8 +122,8 @@ A aplicação permite que a partir dos dados básicos de um cliente, seja criada
 
 ## 👥 Desenvolvedores
 
-- 👷 Nome
-- 👷 Nome
-- 👷 Nome
-- 👷 Nome
+- 👷 Genivaldo Ferreira da Silva
+- 👷 Helsen Afonso Garcia Leme
+- 👷 Jorge Michel Kim
+- 👷 Matheus Ludovico Vasconcellos Costa
  ---
