@@ -82,7 +82,7 @@ A aplicação permite que a partir dos dados básicos de um cliente, seja criada
 | GET    | `/contas`          | Retorna todas as contas cadastradas       |
 | GET    | `/contas/{id}`     | Retorna uma conta por ID                  |
 | POST   | `/contas`          | Cria uma nova conta                       |
-| PUT    | `/contas/{id}`     | Atualiza completamente um registro        |
+| PUT    | `/contas/{id}`     | Atualiza registro do cliente              |
 | PATCH  | `/contas/{id}`     | Encerra uma conta                         |
 | DELETE | `/contas/{id}`     | Exclui uma conta                          |
 ---
