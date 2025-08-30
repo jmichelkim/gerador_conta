@@ -18,11 +18,9 @@ A aplicação permite que a partir dos dados básicos de um cliente, seja criada
 - **Mockito** (Testes unitários)
 - **Frontend** (Interface de usuário)
 - **Consumo de API externa** para obter UF via CEP
-- **Funcionalidade extra**: relatório, filtros, exportação etc.
 ---
 
 ## 🧩 Extensões Quarkus Utilizadas
-- quarkus-resteasy-reactive
 - quarkus-hibernate-orm
 - quarkus-jdbc-h2
 - quarkus-smallrye-openapi
