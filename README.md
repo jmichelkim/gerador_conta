@@ -18,6 +18,7 @@ A aplicação permite que a partir dos dados básicos de um cliente, seja criada
 - **Mockito** (Testes unitários)
 - **Frontend** (Interface de usuário)
 - **Consumo de API externa** para obter UF via CEP
+- **quarkus-security** para habilitar a autenticação e autorização.
 ---
 
 ## 🧩 Extensões Quarkus Utilizadas
@@ -25,7 +26,7 @@ A aplicação permite que a partir dos dados básicos de um cliente, seja criada
 - quarkus-jdbc-h2
 - quarkus-smallrye-openapi
 - quarkus-junit5
-
+- quarkus-security
 ---
 ## ▶️ Como executar
 
@@ -75,16 +76,25 @@ A aplicação permite que a partir dos dados básicos de um cliente, seja criada
    }
    🔸 A conta possui data de abertura, encerramento e status de atividade
 ---
+
+## 🛡️ Segurança e Autenticação
+1. Autenticação Basic Auth
+- Criados os perfis admin e users no arquivo application-users.properties.
+- Criados os perfis de acesso admin e users no arquivo application-roles.properties.
+- usuário: admin -> senha: 123456
+- usuário: user -> senha: senha123
+
 ## 🔗 Endpoints da API
 
-| Método | Rota               | Descrição                                 |
-|--------|--------------------|-------------------------------------------|
-| GET    | `/contas`          | Retorna todas as contas cadastradas       |
-| GET    | `/contas/{id}`     | Retorna uma conta por ID                  |
-| POST   | `/contas`          | Cria uma nova conta                       |
-| PUT    | `/contas/{id}`     | Atualiza registro do cliente              |
-| PATCH  | `/contas/{id}`     | Encerra uma conta                         |
-| DELETE | `/contas/{id}`     | Exclui uma conta                          |
+| Método | Rota           | Descrição                           | Permissão                        |
+| ------ | -------------- | ----------------------------------- | -------------------------------- |
+| GET    | `/contas`      | Retorna todas as contas cadastradas | @PermitAll                       |
+| GET    | `/contas/{id}` | Retorna uma conta por ID            | @RolesAllowed({"admin", "user"}) |
+| POST   | `/contas`      | Cria uma nova conta                 | @RolesAllowed({"admin", "user"}) |
+| PUT    | `/contas/{id}` | Atualiza registro do cliente        | (não implementado)               |
+| PATCH  | `/contas/{id}` | Encerra uma conta                   | @RolesAllowed({"admin", "user"}) |
+| DELETE | `/contas/{id}` | Exclui uma conta                    | @RolesAllowed({"admin"})         |
+
 ---
 
 🧪 Testes
@@ -99,11 +109,6 @@ A aplicação permite que a partir dos dados básicos de um cliente, seja criada
 
 ---
 🧠 Sugestão de Funcionalidades que Podem Ser Acrescentadas
-
-## 🛡️ Segurança e Autenticação
-1. Autenticação JWT
-- Autenticação baseada em tokens JWT.
-- Criar perfis de acesso (ex: admin, operador).
 
 ## 🧪 Testes e Qualidade
 1. Testes de Integração
