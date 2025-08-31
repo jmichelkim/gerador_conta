@@ -1,6 +1,7 @@
 package caixa.ada.controller;
 
 import caixa.ada.DTO.ClienteDTO;
+import caixa.ada.DTO.RelatorioDTO;
 import caixa.ada.model.Conta;
 import caixa.ada.service.ContaService;
 import jakarta.annotation.security.PermitAll;
@@ -78,5 +79,16 @@ public class ContaController {
         this.contaService.deletarConta(id);
         return Response.status(Response.Status.OK)
                 .entity("Conta excluída com sucesso").build();
+    }
+
+    @GET
+    @Path("/agencia/{idAgencia}/relatorio")
+    //@RolesAllowed({"admin", "user"})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Gera relatório por agência",
+            description = "Retorna um relatório com todas as contas ativas da agência informada")
+    public Response gerarRelatorioPorAgencia(@RestPath Long idAgencia) {
+        RelatorioDTO relatorio = contaService.gerarRelatorioPorAgencia(idAgencia);
+        return Response.ok(relatorio).build();
     }
 }
