@@ -3,6 +3,8 @@ package caixa.ada.controller;
 import caixa.ada.DTO.ClienteDTO;
 import caixa.ada.model.Conta;
 import caixa.ada.service.ContaService;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -23,6 +25,7 @@ public class ContaController {
 
     @POST
     @Transactional
+    @RolesAllowed({"admin", "user"})
     @Operation(summary = "Cadastra nova conta",
             description = "Cadastra nova conta para o cliente, vinculando a uma agência")
     public Response addConta(ClienteDTO clienteDTO){
@@ -33,13 +36,16 @@ public class ContaController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @PermitAll
     @Operation(summary = "Listar todas contas cadastradas",
             description = "Retorna uma lista de contas cadastrados")
     public List<Conta> getContas() {
         return this.contaService.getContas();
     }
 
+
     @GET
+    @RolesAllowed({"admin", "user"})
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Busca conta cadastrada",
             description = "Busca conta cadastrada pelo 'id'")
@@ -49,8 +55,10 @@ public class ContaController {
 
     }
 
+
     @PATCH
     @Transactional
+    @RolesAllowed({"admin", "user"})
     @Operation(summary = "Encerra conta cadastrada",
             description = "Encerra conta pelo 'id'")
     @Path ("{id}")
@@ -62,6 +70,7 @@ public class ContaController {
 
     @DELETE
     @Transactional
+    @RolesAllowed({"admin"})
     @Operation(summary = "Apaga conta cadastrada",
             description = "Apaga conta pelo 'id'")
     @Path("{id}")
