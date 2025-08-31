@@ -74,4 +74,30 @@ public class ContaService {
             contaRepository.deleteById(id);
         } else throw new ContaNaoEncontradaException("Não encontrada conta para deletar com esse 'id'.");
     }
+   
+    public void atualizarConta(Long id, ClienteDTO clienteDTO) {
+        Conta conta = contaRepository.findById(id);
+        if (conta == null) {
+            throw new ContaNaoEncontradaException("Não encontrada conta para atualizar com esse 'id'.");
+        }
+
+    // Se vier CEP no DTO, atualizar a agência pela UF do CEP
+        if (clienteDTO.getCep() != null && !clienteDTO.getCep().isBlank()) {
+            AgenciaHttp agenciaHttp = obterAgenciaPorCep(clienteDTO.getCep());
+            if (agenciaHttp.getUf() == null) {
+                throw new AgenciaNaoEncontradaException("Agência não encontrada para o estado informado.");
+            }
+            Agencia agencia = agenciaService.buscarUf(agenciaHttp.getUf());
+            conta.setAgencia(agencia); // use setter da Conta
+    }
+
+    // Atualiza dados do cliente (usando os NOMES REAIS da sua entidade)
+    Cliente cliente = conta.getCliente(); // use getter da Conta
+        if (clienteDTO.getNome() != null)      cliente.setNomeCliente(clienteDTO.getNome());
+        if (clienteDTO.getCpf() != null)       cliente.setCpfCliente(clienteDTO.getCpf());
+        if (clienteDTO.getEndereco() != null)  cliente.setEndereco(clienteDTO.getEndereco());
+        if (clienteDTO.getTelefone() != null)  cliente.setTelefone(clienteDTO.getTelefone());
+        if (clienteDTO.getCep() != null)       cliente.setCep(clienteDTO.getCep());
+    }
+
 }

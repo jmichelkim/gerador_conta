@@ -9,24 +9,24 @@ public class Conta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(name="numero_conta")
-    private Long numeroConta;
+    public Long numeroConta;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "agencia_id")
-    private Agencia agencia;
+    public Agencia agencia;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    public Cliente cliente;
 
     @Column(name="data_abertura")
-    private LocalDate dataAbertura;
+    public LocalDate dataAbertura;
 
     @Column(name="data_encerramento")
-    private LocalDate dataEncerramento;
+     LocalDate dataEncerramento;
 
     private Boolean ativa;
 

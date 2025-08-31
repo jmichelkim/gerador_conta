@@ -79,4 +79,18 @@ public class ContaController {
         return Response.status(Response.Status.OK)
                 .entity("Conta excluída com sucesso").build();
     }
+
+    @PUT
+    @Transactional
+    @RolesAllowed({"admin", "user"})
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Atualiza dados da conta/cliente",
+            description = "Atualiza parcialmente os dados do cliente e, opcionalmente, da agência via CEP")
+    @Path("{id}")
+    public Response updateConta(@RestPath Long id, ClienteDTO clienteDTO) {
+        this.contaService.atualizarConta(id, clienteDTO);
+        return Response.ok(contaService.findById(id)).build(); 
+}
+
 }

@@ -7,17 +7,17 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(name="nome_cliente")
-    private String nomeCliente;
+    public String nomeCliente;
 
     @Column(name="cpf_cliente")
-    private String cpfCliente;
+    public String cpfCliente;
 
-    private String endereco;
-    private String telefone;
-    private String cep;
+    public String endereco;
+    public String telefone;
+    public String cep;
 
     public Cliente(){
 

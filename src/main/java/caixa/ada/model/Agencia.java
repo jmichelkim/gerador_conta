@@ -7,16 +7,16 @@ public class Agencia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(name="numero_agencia")
-    private Long numeroAgencia;
+    public Long numeroAgencia;
 
     @Column(name="nome_agencia")
-    private String nomeAgencia;
+    public String nomeAgencia;
 
     @Column(name="uf_agencia")
-    private String ufAgencia;
+    public String ufAgencia;
 
     public Agencia(){
 
