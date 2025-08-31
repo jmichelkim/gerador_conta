@@ -1,6 +1,7 @@
 package caixa.ada.service;
 
 import caixa.ada.DTO.ClienteDTO;
+import caixa.ada.DTO.RelatorioDTO;
 import caixa.ada.DTO.mapper.ClienteMapper;
 import caixa.ada.exceptions.AgenciaNaoEncontradaException;
 import caixa.ada.exceptions.CepNaoEncontradoOuNuloException;
@@ -9,6 +10,7 @@ import caixa.ada.model.Agencia;
 import caixa.ada.model.Cliente;
 import caixa.ada.model.Conta;
 import caixa.ada.model.http.AgenciaHttp;
+import caixa.ada.report.RelatorioService;
 import caixa.ada.repository.ContaRepository;
 import caixa.ada.service.http.ConsultaCepHttpService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -73,5 +75,11 @@ public class ContaService {
         if (this.findById(id) != null) {
             contaRepository.deleteById(id);
         } else throw new ContaNaoEncontradaException("Não encontrada conta para deletar com esse 'id'.");
+    }
+
+    @Inject
+    RelatorioService relatorioService;
+    public RelatorioDTO gerarRelatorioPorAgencia(Long idAgencia) {
+        return relatorioService.gerarRelatorioDaAgencia(idAgencia);
     }
 }
