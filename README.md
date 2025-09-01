@@ -19,6 +19,7 @@ A aplicação permite que a partir dos dados básicos de um cliente, seja criada
 - **Frontend** (Interface de usuário)
 - **Consumo de API externa** para obter UF via CEP
 - **quarkus-security** para habilitar a autenticação e autorização.
+- **Funcionalidades extras:** Relatório por agência; Histórico de transações (CRUD) por conta
 ---
 
 ## 🧩 Extensões Quarkus Utilizadas
@@ -83,17 +84,21 @@ A aplicação permite que a partir dos dados básicos de um cliente, seja criada
 - Criados os perfis de acesso admin e users no arquivo application-roles.properties.
 - usuário: admin -> senha: 123456
 - usuário: user -> senha: senha123
+---
 
 ## 🔗 Endpoints da API
 
-| Método | Rota           | Descrição                           | Permissão                        |
-| ------ | -------------- | ----------------------------------- | -------------------------------- |
-| GET    | `/contas`      | Retorna todas as contas cadastradas | @PermitAll                       |
-| GET    | `/contas/{id}` | Retorna uma conta por ID            | @RolesAllowed({"admin", "user"}) |
-| POST   | `/contas`      | Cria uma nova conta                 | @RolesAllowed({"admin", "user"}) |
-| PUT    | `/contas/{id}` | Atualiza registro do cliente        | (não implementado)               |
-| PATCH  | `/contas/{id}` | Encerra uma conta                   | @RolesAllowed({"admin", "user"}) |
-| DELETE | `/contas/{id}` | Exclui uma conta                    | @RolesAllowed({"admin"})         |
+| Método | Rota                                  | Descrição                           | Permissão                        |
+| ------ | ------------------------------------- | ----------------------------------- | -------------------------------- |
+| GET    | `/contas`                             | Retorna todas as contas cadastradas | @PermitAll                       |
+| GET    | `/contas/{id}`                        | Retorna uma conta por ID            | @RolesAllowed({"admin", "user"}) |
+| GET    | `/contas/agencia/{agencia}/relatorio` | Retorna relatório por agência       | @RolesAllowed({"admin", "user"}) |
+| GET    | `/contas/{id}/historico    `          | Retorna histórico da conta (log)    | @RolesAllowed({"admin"})         |
+| POST   | `/contas`                             | Cria uma nova conta                 | @RolesAllowed({"admin", "user"}) |
+| PUT    | `/contas/{id}`                        | Atualiza registro do cliente        | @RolesAllowed({"admin", "user"}) |
+| PATCH  | `/contas/{id}`                        | Encerra uma conta                   | @RolesAllowed({"admin", "user"}) |
+| DELETE | `/contas/{id}`                        | Exclui uma conta                    | @RolesAllowed({"admin"})         |
+
 
 ---
 
