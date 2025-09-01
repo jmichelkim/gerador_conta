@@ -102,6 +102,23 @@ A aplicação permite que a partir dos dados básicos de um cliente, seja criada
 
 ---
 
+# API REST
+
+Este repositório contém os endpoints REST utilizados no projeto **Gerador de Contas**. Todos os endpoints podem ser testados no Insomnia.
+
+Eles estão na pasta "requisicoes_insomnia_v5" na raiz do projeto.
+
+O arquivo `Insomnia_2025-09-01.yaml` contém todas as requisições REST da API.  
+Para importar:
+
+1. Abra o Insomnia.
+2. Clique em `Import/Export`.
+3. Escolha `Import Data` → `From File`.
+4. Selecione o arquivo `Insomnia_2025-09-01.yaml`.
+5. Utilize conforme seleção
+---
+
+
 🧪 Testes
 
 ✅ Como executar os testes
