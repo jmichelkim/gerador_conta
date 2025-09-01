@@ -111,7 +111,7 @@ public class ContaController {
     @GET
     @Path("{id}/historico")
     @RolesAllowed({"admin"})
-    @Operation(summary = "Gera histórico de operaççoes por conta",
+    @Operation(summary = "Gera histórico de operaçoes por conta",
             description = "Retorna um log com operaçoes (CREATE, PUT, PATCH, DELETE) na conta informada")
     @Produces(MediaType.APPLICATION_JSON)
     public List<OperacaoLog> historicoPorConta(@PathParam("id") Long id) {
