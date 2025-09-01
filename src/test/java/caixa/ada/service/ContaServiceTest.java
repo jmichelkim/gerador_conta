@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static caixa.ada.utils.ClienteSimulator.criaCliente;
+import static caixa.ada.utils.ContaSimulator.criaConta;
 
 @QuarkusTest
 public class ContaServiceTest {
@@ -43,12 +44,11 @@ public class ContaServiceTest {
         Mockito.when(consultaCepHttpService.buscaCep("01001-000"))
                 .thenReturn(new AgenciaHttp("01001-000", "SP"));
         contaService.cadastrarConta(criaCliente("01001-000"));
-        Mockito.verify(contaRepository).persist(Mockito.any(Conta.class));
+        Mockito.verify(contaRepository, Mockito.times(1)).persist(Mockito.any(Conta.class));
     }
 
     @Test
     public void deveNaoCadastrarQuandoConsultaCepRetonaNull() {
-        var conta = new Conta();
         Mockito.when(consultaCepHttpService.buscaCep("21000")).thenReturn(null);
         CepNaoEncontradoOuNuloException ex = Assertions.assertThrows(CepNaoEncontradoOuNuloException.class,
                 () -> contaService.cadastrarConta(criaCliente("21000")));
@@ -66,10 +66,26 @@ public class ContaServiceTest {
     }
 
     @Test
+    public void deveEncerrarContaExistente() {
+        Conta conta = criaConta();
+        Mockito.when(contaRepository.findById(1L)).thenReturn(conta);
+        contaService.encerrarConta(1L);
+        Assertions.assertNotNull(conta.getDataEncerramento());
+    }
+
+    @Test
     public void deveLancarExcecaoAoTentarEncerrarContaInexistente() {
         ContaNaoEncontradaException ex = Assertions.assertThrows(ContaNaoEncontradaException.class,
                 () -> contaService.encerrarConta(0L));
         Assertions.assertEquals("Não encontrada conta para encerrar com 'id' 0", ex.getMessage());
+    }
+
+    @Test
+    public void deveDeletarContaExistente() {
+        Conta conta = criaConta();
+        Mockito.when(contaRepository.findById(1L)).thenReturn(conta);
+        contaService.deletarConta(1L);
+        Mockito.verify(contaRepository, Mockito.times(1)).delete(conta);
     }
 
     @Test
