@@ -3,6 +3,8 @@ package caixa.ada.controller;
 import caixa.ada.DTO.ClienteDTO;
 import caixa.ada.DTO.RelatorioDTO;
 import caixa.ada.model.Conta;
+import caixa.ada.model.log.OperacaoLog;
+import caixa.ada.repository.log.OperacaoLogRepository;
 import caixa.ada.service.ContaService;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
@@ -19,9 +21,12 @@ import java.util.List;
 public class ContaController {
 
     private final ContaService contaService;
+    private final OperacaoLogRepository logRepository;
 
-    public ContaController(ContaService contaService) {
+    public ContaController(ContaService contaService, OperacaoLogRepository logRepository) {
+
         this.contaService = contaService;
+        this.logRepository = logRepository;
     }
 
     @POST
@@ -56,7 +61,6 @@ public class ContaController {
 
     }
 
-
     @PATCH
     @Transactional
     @RolesAllowed({"admin", "user"})
@@ -69,11 +73,22 @@ public class ContaController {
                 .entity("Conta encerrada com sucesso").build();
     }
 
+    @PUT
+    @Transactional
+    @Operation(summary = "Altera cliente conta cadastrada",
+            description = "Altera dados do cliente de uma conta cadastrada")
+    @Path ("{id}")
+    public Response alterarConta(@RestPath Long id, ClienteDTO clienteDTO){
+        this.contaService.alterarConta(id, clienteDTO);
+        return Response.status(Response.Status.OK)
+                .entity("Conta a alterada com sucesso").build();
+    }
+
     @DELETE
     @Transactional
     @RolesAllowed({"admin"})
-    @Operation(summary = "Apaga conta cadastrada",
-            description = "Apaga conta pelo 'id'")
+    @Operation(summary = "Exclui conta cadastrada",
+            description = "Deleta conta pelo 'id'")
     @Path("{id}")
     public Response deleteConta(@RestPath Long id){
         this.contaService.deletarConta(id);
@@ -90,5 +105,17 @@ public class ContaController {
     public Response gerarRelatorioPorAgencia(@RestPath Long idAgencia) {
         RelatorioDTO relatorio = contaService.gerarRelatorioPorAgencia(idAgencia);
         return Response.ok(relatorio).build();
+    }
+
+    @GET
+    @Path("{id}/historico")
+    public List<OperacaoLog> historicoPorConta(@PathParam("id") Long id) {
+        return logRepository.findByContaId(id);
+    }
+
+    @GET
+    @Path("clientes/{id}/historico")
+    public List<OperacaoLog> historicoPorCliente(@PathParam("id") Long id) {
+        return logRepository.findByClienteId(id);
     }
 }

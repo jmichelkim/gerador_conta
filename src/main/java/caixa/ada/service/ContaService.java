@@ -6,6 +6,7 @@ import caixa.ada.DTO.mapper.ClienteMapper;
 import caixa.ada.exceptions.AgenciaNaoEncontradaException;
 import caixa.ada.exceptions.CepNaoEncontradoOuNuloException;
 import caixa.ada.exceptions.ContaNaoEncontradaException;
+import caixa.ada.log.ContaLog;
 import caixa.ada.model.Agencia;
 import caixa.ada.model.Cliente;
 import caixa.ada.model.Conta;
@@ -26,6 +27,9 @@ public class ContaService {
     @Inject
     private ConsultaCepHttpService consultaCepHttpService;
 
+    @Inject
+    ContaLog contaLog;
+
     private final ContaRepository contaRepository;
     private final AgenciaService agenciaService;
 
@@ -43,6 +47,7 @@ public class ContaService {
         Cliente cliente = ClienteMapper.toEntity(clienteDTO);
         Conta conta = new Conta(agencia, cliente);
         contaRepository.persist(conta);
+        contaLog.registrarLog("CREATE", "Conta cadastrada",conta);
     }
 
     public AgenciaHttp obterAgenciaPorCep(String cep){
@@ -65,16 +70,36 @@ public class ContaService {
         return contaRepository.findById(id);
     }
 
+    public void alterarConta(Long id, ClienteDTO clienteDTO){
+        Conta contaEncontrada = contaRepository.findById(id);
+        if (contaEncontrada == null) {
+            throw new ContaNaoEncontradaException("Não encontrada conta para alterar com 'id' " + id);
+        }
+        Cliente cliente = ClienteMapper.toEntity(clienteDTO);
+        Cliente clienteExistente = contaEncontrada.getCliente();
+        clienteExistente.setNomeCliente(cliente.getNomeCliente());
+        clienteExistente.setCep(cliente.getCep());
+        clienteExistente.setEndereco(cliente.getEndereco());
+        clienteExistente.setTelefone(cliente.getTelefone());
+        contaLog.registrarLog("PUT", "Conta alterada",contaEncontrada);
+    }
+
     public void encerrarConta(Long id) {
-        if (this.findById(id) != null) {
-            contaRepository.findById(id).setDataEncerramento();
-        } else throw new ContaNaoEncontradaException("Não encontrada conta para encerrar com esse 'id'.");
+        Conta contaEncontrada = contaRepository.findById(id);
+        if (contaEncontrada == null) {
+            throw new ContaNaoEncontradaException("Não encontrada conta para encerrar com 'id' " + id);
+        }
+        contaEncontrada.setDataEncerramento();
+        contaLog.registrarLog("PATCH", "Conta encerrada",contaEncontrada);
     }
 
     public void deletarConta(Long id) {
-        if (this.findById(id) != null) {
-            contaRepository.deleteById(id);
-        } else throw new ContaNaoEncontradaException("Não encontrada conta para deletar com esse 'id'.");
+        Conta contaEncontrada = contaRepository.findById(id);
+        if (contaEncontrada == null) {
+            throw new ContaNaoEncontradaException("Não encontrada conta para deletar com 'id' "+id);
+        }
+        contaLog.registrarLog("DELETE", "Conta deletada",contaEncontrada);
+        contaRepository.delete(contaEncontrada);
     }
 
     @Inject

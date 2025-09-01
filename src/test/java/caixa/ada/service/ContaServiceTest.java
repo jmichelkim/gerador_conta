@@ -41,7 +41,7 @@ public class ContaServiceTest {
     @Test
     public void deveCadastrarContaEmAgenciaExistente() {
         Mockito.when(consultaCepHttpService.buscaCep("01001-000"))
-                .thenReturn(new AgenciaHttp("01001-000", "BR"));
+                .thenReturn(new AgenciaHttp("01001-000", "SP"));
         contaService.cadastrarConta(criaCliente("01001-000"));
         Mockito.verify(contaRepository).persist(Mockito.any(Conta.class));
     }
@@ -69,17 +69,13 @@ public class ContaServiceTest {
     public void deveLancarExcecaoAoTentarEncerrarContaInexistente() {
         ContaNaoEncontradaException ex = Assertions.assertThrows(ContaNaoEncontradaException.class,
                 () -> contaService.encerrarConta(0L));
-        Assertions.assertEquals("Não encontrada conta para encerrar com esse 'id'.", ex.getMessage());
+        Assertions.assertEquals("Não encontrada conta para encerrar com 'id' 0", ex.getMessage());
     }
 
     @Test
     public void deveLancarExcecaoAoTentarDeletarContaInexistente() {
         ContaNaoEncontradaException ex = Assertions.assertThrows(ContaNaoEncontradaException.class,
                 () -> contaService.deletarConta(0L));
-        Assertions.assertEquals("Não encontrada conta para deletar com esse 'id'.", ex.getMessage());
+        Assertions.assertEquals("Não encontrada conta para deletar com 'id' 0", ex.getMessage());
     }
-
-
-
-
 }
