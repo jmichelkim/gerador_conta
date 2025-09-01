@@ -75,6 +75,7 @@ public class ContaController {
 
     @PUT
     @Transactional
+    @RolesAllowed({"admin", "user"})
     @Operation(summary = "Altera cliente conta cadastrada",
             description = "Altera dados do cliente de uma conta cadastrada")
     @Path ("{id}")
@@ -98,7 +99,7 @@ public class ContaController {
 
     @GET
     @Path("/agencia/{idAgencia}/relatorio")
-    //@RolesAllowed({"admin", "user"})
+    @RolesAllowed({"admin", "user"})
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Gera relatório por agência",
             description = "Retorna um relatório com todas as contas ativas da agência informada")
@@ -109,13 +110,12 @@ public class ContaController {
 
     @GET
     @Path("{id}/historico")
+    @RolesAllowed({"admin"})
+    @Operation(summary = "Gera histórico de operaççoes por conta",
+            description = "Retorna um log com operaçoes (CREATE, PUT, PATCH, DELETE) na conta informada")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<OperacaoLog> historicoPorConta(@PathParam("id") Long id) {
         return logRepository.findByContaId(id);
     }
 
-    @GET
-    @Path("clientes/{id}/historico")
-    public List<OperacaoLog> historicoPorCliente(@PathParam("id") Long id) {
-        return logRepository.findByClienteId(id);
-    }
 }
