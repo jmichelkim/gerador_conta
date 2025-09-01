@@ -1,0 +1,269 @@
+type: collection.insomnia.rest/5.0
+name: gerador-conta
+meta:
+  id: wrk_9f5d2f4c6b81412b831e486332b0aaa4
+  created: 1756752674764
+  modified: 1756752674764
+  description: ""
+collection:
+  - name: gerador_conta
+    meta:
+      id: fld_418e59dfac924c5e80e560afd501da79
+      created: 1756005330209
+      modified: 1756005330209
+      sortKey: -1756005330209
+      description: ""
+    children:
+      - url: http://localhost:8080/contas
+        name: Listar todas as Contas
+        meta:
+          id: req_760f804e148a448f9241f82330cbbe6d
+          created: 1756005334665
+          modified: 1756602407504
+          isPrivate: false
+          description: ""
+          sortKey: -1756005515901
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.4.0
+        authentication:
+          type: basic
+          useISO88591: false
+          username: admin
+          password: "123456"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/contas
+        name: Criar Conta
+        meta:
+          id: req_bfb7e4268c4849338027de42f25d74a8
+          created: 1756005519228
+          modified: 1756602414275
+          isPrivate: false
+          description: ""
+          sortKey: -1756005516101
+        method: POST
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "nome": "Mario Lima",
+              "cpf": 12345678901,
+              "endereco": "Rua das Palmeiras, 100",
+              "telefone": "(11) 99999-9999",
+              "cep": "31210990"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.4.0
+        authentication:
+          type: basic
+          useISO88591: false
+          username: admin
+          password: "123456"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/contas/6
+        name: Deleta Conta
+        meta:
+          id: req_243d8b370e314d8e8d2dff97d9ca0c2b
+          created: 1756015243614
+          modified: 1756752714765
+          isPrivate: false
+          description: ""
+          sortKey: -1756005515601
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.4.0
+        authentication:
+          type: basic
+          useISO88591: false
+          username: admin
+          password: "123456"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8080/contas/7
+        name: Encerrar conta
+        meta:
+          id: req_52851b5f3f6940ccaf0852cbc63d5b4b
+          created: 1756423394772
+          modified: 1756602419054
+          isPrivate: false
+          description: ""
+          sortKey: -1756005515726
+        method: PATCH
+        headers:
+          - name: User-Agent
+            value: insomnia/11.4.0
+        authentication:
+          type: basic
+          useISO88591: false
+          username: admin
+          password: "123456"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/contas/1
+        name: Listar uma conta
+        meta:
+          id: req_f651580ad7574187937f9b5b92514c42
+          created: 1756602212718
+          modified: 1756602400621
+          isPrivate: false
+          description: ""
+          sortKey: -1756005515851
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.4.0
+        authentication:
+          type: basic
+          useISO88591: false
+          username: admin
+          password: "123456"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/contas/1
+        name: Altera dados da conta
+        meta:
+          id: req_ebfab18edf9c4d5b86728509bfd25b03
+          created: 1756602487428
+          modified: 1756747771377
+          isPrivate: false
+          description: ""
+          sortKey: -1756005515788.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nome": "MICHAEL JACKSON",
+              "cpf": "01987654321",
+              "endereco": "Rua Estados Unidos, 256",
+              "telefone": "(45)23652-9914",
+              "cep": "20270-290"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.4.0
+        authentication:
+          type: basic
+          useISO88591: false
+          username: admin
+          password: "123456"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/contas/1/historico
+        name: Historico da conta
+        meta:
+          id: req_6775b1a3565d40ca83770de8e09b34c8
+          created: 1756743545890
+          modified: 1756743760165
+          isPrivate: false
+          description: ""
+          sortKey: -1756005515663.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        authentication:
+          type: basic
+          useISO88591: false
+          username: admin
+          password: "123456"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/contas/agencia/13/relatorio
+        name: Lista contas da agencia
+        meta:
+          id: req_95d170a7b1ab4e9eb8799cb1959d40ec
+          created: 1756743765731
+          modified: 1756743833997
+          isPrivate: false
+          description: ""
+          sortKey: -1756005515632.25
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+        authentication:
+          type: basic
+          useISO88591: false
+          username: admin
+          password: "123456"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_006ba43bb1aa4e7ea6fe189634cee63d
+    created: 1755087617066
+    modified: 1755087617066
+environments:
+  name: Base Environment
+  meta:
+    id: env_32e5a04f44a3467fafd9d463d5752150
+    created: 1755087617062
+    modified: 1755087617062
+    isPrivate: false
