@@ -75,12 +75,7 @@ public class ContaService {
         if (contaEncontrada == null) {
             throw new ContaNaoEncontradaException("Não encontrada conta para alterar com 'id' " + id);
         }
-        Cliente cliente = ClienteMapper.toEntity(clienteDTO);
-        Cliente clienteExistente = contaEncontrada.getCliente();
-        clienteExistente.setNomeCliente(cliente.getNomeCliente());
-        clienteExistente.setCep(cliente.getCep());
-        clienteExistente.setEndereco(cliente.getEndereco());
-        clienteExistente.setTelefone(cliente.getTelefone());
+        this.alterarDadosCliente(contaEncontrada, clienteDTO);
         contaLog.registrarLog("PUT", "Conta alterada",contaEncontrada);
     }
 
@@ -106,5 +101,14 @@ public class ContaService {
     RelatorioService relatorioService;
     public RelatorioDTO gerarRelatorioPorAgencia(Long idAgencia) {
         return relatorioService.gerarRelatorioDaAgencia(idAgencia);
+    }
+
+    private void alterarDadosCliente(Conta contaEncontrada, ClienteDTO clienteDTO){
+        Cliente clienteExistente = contaEncontrada.getCliente();
+        Cliente cliente = ClienteMapper.toEntity(clienteDTO);
+        clienteExistente.setNomeCliente(cliente.getNomeCliente());
+        clienteExistente.setCep(cliente.getCep());
+        clienteExistente.setEndereco(cliente.getEndereco());
+        clienteExistente.setTelefone(cliente.getTelefone());
     }
 }

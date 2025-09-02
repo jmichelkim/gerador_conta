@@ -1,5 +1,6 @@
 package caixa.ada.service;
 
+import caixa.ada.DTO.mapper.ClienteMapper;
 import caixa.ada.exceptions.AgenciaNaoEncontradaException;
 import caixa.ada.exceptions.CepNaoEncontradoOuNuloException;
 import caixa.ada.exceptions.ContaNaoEncontradaException;
@@ -71,6 +72,7 @@ public class ContaServiceTest {
         Mockito.when(contaRepository.findById(1L)).thenReturn(conta);
         contaService.encerrarConta(1L);
         Assertions.assertNotNull(conta.getDataEncerramento());
+        Assertions.assertFalse(conta.getActive());
     }
 
     @Test
@@ -93,5 +95,22 @@ public class ContaServiceTest {
         ContaNaoEncontradaException ex = Assertions.assertThrows(ContaNaoEncontradaException.class,
                 () -> contaService.deletarConta(0L));
         Assertions.assertEquals("Não encontrada conta para deletar com 'id' 0", ex.getMessage());
+    }
+
+    @Test
+    public void deveAlterarContaExistente() {
+        Conta conta = criaConta();
+        Mockito.when(contaRepository.findById(1L)).thenReturn(conta);
+        var clienteDTO = criaCliente("58135-000");
+        contaService.alterarConta(1L, clienteDTO);
+        var clienteNovo = ClienteMapper.toEntity(clienteDTO);
+        Assertions.assertEquals(conta.getCliente(), clienteNovo);
+    }
+
+    @Test
+    public void deveLancarExcecaoAoTentarAlterarContaInexistente() {
+        ContaNaoEncontradaException ex = Assertions.assertThrows(ContaNaoEncontradaException.class,
+                () -> contaService.alterarConta(0L, criaCliente("01001-000")));
+        Assertions.assertEquals("Não encontrada conta para alterar com 'id' 0", ex.getMessage());
     }
 }

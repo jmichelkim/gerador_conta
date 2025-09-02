@@ -2,6 +2,8 @@ package caixa.ada.model;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 public class Cliente {
 
@@ -79,5 +81,16 @@ public class Cliente {
 
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Cliente cliente)) return false;
+        return Objects.equals(id, cliente.id) && Objects.equals(nomeCliente, cliente.nomeCliente) && Objects.equals(cpfCliente, cliente.cpfCliente) && Objects.equals(endereco, cliente.endereco) && Objects.equals(telefone, cliente.telefone) && Objects.equals(cep, cliente.cep);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nomeCliente, cpfCliente, endereco, telefone, cep);
     }
 }

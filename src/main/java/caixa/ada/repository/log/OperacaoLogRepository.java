@@ -10,11 +10,9 @@ import java.util.List;
 public class OperacaoLogRepository implements PanacheRepository<OperacaoLog> {
 
     public List<OperacaoLog> findByContaId(Long contaId) {
+
         return list("contaId", contaId);
     }
 
-    public List<OperacaoLog> findByClienteId(Long clienteId) {
-         return list("clienteId", clienteId);
-    }
 
 }

@@ -3,6 +3,7 @@ package caixa.ada.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 public class Conta {
@@ -100,5 +101,16 @@ public class Conta {
 
     public void setActive(Boolean ativa) {
         this.ativa = ativa;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Conta conta)) return false;
+        return Objects.equals(id, conta.id) && Objects.equals(numeroConta, conta.numeroConta) && Objects.equals(agencia, conta.agencia) && Objects.equals(cliente, conta.cliente) && Objects.equals(dataAbertura, conta.dataAbertura) && Objects.equals(dataEncerramento, conta.dataEncerramento) && Objects.equals(ativa, conta.ativa);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, numeroConta, agencia, cliente, dataAbertura, dataEncerramento, ativa);
     }
 }
